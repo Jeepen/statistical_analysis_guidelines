@@ -5,6 +5,7 @@ This style guide provides guidelines for writing R code that is clean, readable,
 ## Table of Contents
 
 1. [General Guidelines](#general-guidelines)
+2. [Adding a Header to Scripts](#)
 2. [Naming Conventions](#naming-conventions)
 3. [File and Folder Naming](#file-and-folder-naming)
 4. [Code Formatting](#code-formatting)
@@ -18,6 +19,29 @@ This style guide provides guidelines for writing R code that is clean, readable,
 - Aim for clarity and simplicity in your code.
 - Write code that is self-explanatory. If a piece of code is complex, add comments to clarify.
 - Keep functions and scripts focused on a single task.
+
+## Adding a Header to Scripts
+
+For clarity and documentation, it’s recommended to add a standard header to the top of each script file. This header can include details like the script’s purpose, author, and creation date. Setting up a snippet for this header can save time and ensure consistency across scripts.
+
+**Example Header**:
+   ```r
+   	========================================
+	# Script Name:
+	#
+	# Description:
+	#
+	# Author:
+	#
+	# Date Created: `r Sys.Date()`
+	======================================== 
+```
+
+**Setting Up the Header Snippet in RStudio:**
+- Go to **Tools > Global Options > Code > Edit Snippets**.
+- Paste the header template, and save.
+- Now, whenever you start typing header at the top of a new script, RStudio will auto-complete with this template, making it easy to add the header consistently.
+
 
 ## Naming Conventions
 
@@ -49,12 +73,43 @@ calculate_mean <- function(data_vector) {
 ```
 
 ## Comments and Documentation
-- Use comments to explain the "why" behind complex logic.
-- Write documentation for all public functions, including:
-    - A brief description of the function.
-    - Input parameters and their types.
-    - Return values and their types.
-### Example of Function Documentation
+- Use comments to clarify **why** something is done, not **what** the code is doing (as the code itself should be self-explanatory if written well).
+- Place comments above the line or block of code they refer to, not at the end of a line.
+- Avoid redundant comments that simply restate the code.
+- Use comments to provide context, describe complex logic, or explain non-obvious choices.
+
+### Good Commenting Practices
+
+A good comment explains the purpose or reasoning behind the code, rather than describing the code itself. Here’s an example:
+
+**Example of Good Commenting**
+
+```r
+# Calculate the mean while excluding any missing values (important for accurate results)
+mean_value <- mean(data_vector, na.rm = TRUE)
+
+# Filter out customers who have been inactive for over a year
+# This data will be used to calculate retention rates
+active_customers <- customers %>% filter(days_inactive < 365)
+```
+In this example, the comments explain why certain choices are made, providing context rather than just stating what the code does.
+
+**Example of Bad Commenting**
+```r
+# Calculate the mean
+mean_value <- mean(data_vector, na.rm = TRUE)
+
+# Filter data
+active_customers <- customers %>% filter(days_inactive < 365)
+```
+
+### Documentation of Functions
+Write documentation for all public functions, including:
+- A brief description of the function.
+- Input parameters and their types.
+- Return values and their types.
+
+**Example of Function Documentation**
 ```r
 #' Calculate the mean of a numeric vector.
 #'
