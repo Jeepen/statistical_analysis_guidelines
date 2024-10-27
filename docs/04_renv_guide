@@ -1,0 +1,63 @@
+# Renv Guide
+
+This guide provides step-by-step instructions on using `renv` to manage package dependencies within your project. `renv` ensures reproducibility by locking package versions, enabling consistent analysis across systems and collaborators.
+
+## 1. Initializing `renv`
+
+1. **Open your R project** and load the `renv` package:
+```r
+install.packages("renv") # if not already installed
+library(renv)
+```
+
+2. Initialize **renv** in the project folder:
+```r
+renv::init()
+```
+This will create a new `renv` environment and snapshot the packages currently used in your project, saving package details in a `renv.lock` file.
+
+## 2. Managing Packages
+- To install packages and add them to the `renv` environment:
+```r
+renv::install("package_name")
+```
+This updates the `renv.lock` file with the installed package’s version.
+
+- To remove a package from the environment:
+```r
+renv::remove("package_name")
+```
+- **Updating the Lock File:**
+
+After adding or removing packages, always run:
+```r
+renv::snapshot()
+```
+This command updates the `renv.lock` file to reflect the current package versions, ensuring the environment remains consistent.
+
+## 3. Restore the Environment
+- **Restoring Packages from** `renv.lock`
+
+If working on a new system or after modifying the lock file, restore the project’s environment to match the `renv.lock` file:
+```r
+renv::restore()
+```
+This will install all packages listed in `renv.lock` at their specified versions.
+
+- **Common Scenario**:
+
+Use `renv::restore()` when cloning a new project from GitHub to ensure you’re working with the correct package versions.
+
+## 4. Important `renv` Commands Summary
+- `renv::init()` — Initializes new `renv` environment.
+- `renv::install("package_name")` — Installs a package and updates the lock file.
+- `renv::snapshot()` — Updates the lock file with current package versions.
+- `renv::restore()` — Installs packages based on the `renv.lock` file.
+- `renv::remove("package_name")` — Uninstalls a package from the environment.
+
+## Best Practices
+- **Snapshot Frequently**: After installing or removing packages, run `renv::snapshot()` to keep the `renv.lock` file current.
+- **Commit** `renv.lock`: Always include `renv.lock` in version control to track package versions. This is crucial for reproducibility.
+- **Exclude** `renv/library/`: In `.gitignore`, make sure the `renv/library/` folder is ignored. This is because `renv` uses the lock file to recreate the package environment on each collaborator's system, and including the library could lead to compatibility issues due to different system architectures. The lock file ensures everyone installs the same versions but built for their own systems.
+
+With `renv`, you ensure that your project’s package environment is consistent, reliable, and easily shareable.
